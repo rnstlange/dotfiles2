@@ -1,0 +1,79 @@
+set nocompatible
+
+set undodir=$XDG_DATA_HOME/vim/undo
+set directory=$XDG_DATA_HOME/vim/swap
+set backupdir=$XDG_DATA_HOME/vim/backup
+set viewdir=$XDG_DATA_HOME/vim/view
+set viminfo+=n$XDG_DATA_HOME/vim/viminfo
+set runtimepath=$XDG_CONFIG_HOME/vim,$VIMRUNTIME,$XDG_CONFIG_HOME/vim/after
+
+
+filetype plugin on
+filetype indent on
+set autoread
+syntax enable
+
+let mapleader = " "
+
+set background=dark
+set encoding=utf8
+
+
+set smarttab
+set shiftwidth=4
+set tabstop=4
+
+set ai
+set si
+set wrap
+
+set number relativenumber
+
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+map <leader>ba :bufdo bd<cr>
+
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove 
+map <leader>t<leader> :tabnext 
+
+
+call plug#begin('~/.config/vim/bundle')
+	Plug 'morhetz/gruvbox'
+	Plug 'vim-airline/vim-airline'
+	" === Langs ===
+	" Rust
+	Plug 'rust-lang/rust.vim'
+	Plug 'vim-syntastic/syntastic'
+	Plug 'racer-rust/vim-racer'
+call plug#end()
+" === Visual ===
+
+autocmd vimenter * ++nested colorscheme gruvbox
+let g:airline_theme='gruvbox'
+
+
+" === Langs ===
+" == Rust ==
+" = Syntastic =
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" = VimRacer =
+let g:racer_cmd="$XDG_DATA_HOME/cargo/bin/racer"
+
