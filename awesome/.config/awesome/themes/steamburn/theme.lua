@@ -165,22 +165,30 @@ local bat = lain.widget.bat({
     end
 })
 
--- Net checker
-local net = lain.widget.net({
-    settings = function()
-        if net_now.state == "up" then net_state = "On"
-        else net_state = "Off" end
-        widget:set_markup(markup.font(theme.font, markup(gray, " Net ") .. net_state .. " "))
-    end
-})
+-- -- Net checker
+-- local net = lain.widget.net({
+-- 	wifi_state = "on",
+-- 	eth_state = "off",
+--     settings = function()
+--         if net_now.state == "up" then net_state = "On"
+--         else net_state = "Off" end
+--         widget:set_markup(markup.font(theme.font, markup(gray, " Net ") .. net_state .. " "))
+--     end
+-- })
 
--- ALSA volume
-theme.volume = lain.widget.alsa({
+-- Pulse volume
+theme.volume = lain.widget.pulse({
     settings = function()
         header = " Vol "
-        vlevel  = volume_now.level
+		local lvl = 0
+		local n_lvls = 0
+		for _, v in pairs(volume_now.channel) do
+			lvl = lvl + v
+			n_lvls = n_lvls + 1
+		end
+        vlevel  = math.floor(lvl / n_lvls)
 
-        if volume_now.status == "off" then
+        if volume_now.muted == "yes" then
             vlevel = vlevel .. "M "
         else
             vlevel = vlevel .. " "
@@ -189,6 +197,22 @@ theme.volume = lain.widget.alsa({
         widget:set_markup(markup.font(theme.font, markup(gray, header) .. vlevel))
     end
 })
+
+-- -- ALSA volume
+-- theme.volume = lain.widget.alsa({
+--     settings = function()
+--         header = " Vol "
+--         vlevel  = volume_now.level
+-- 
+--         if volume_now.status == "off" then
+--             vlevel = vlevel .. "M "
+--         else
+--             vlevel = vlevel .. " "
+--         end
+-- 
+--         widget:set_markup(markup.font(theme.font, markup(gray, header) .. vlevel))
+--     end
+-- })
 
 -- Weather
 theme.weather = lain.widget.weather({
@@ -265,7 +289,7 @@ function theme.at_screen_connect(s)
             cpu.widget,
             mem.widget,
             bat.widget,
-            net.widget,
+            -- net.widget,
             theme.volume.widget,
             mytextclock
         },

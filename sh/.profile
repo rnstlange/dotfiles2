@@ -1,4 +1,5 @@
 export EDITOR=vim
+export TERMINAL=alacritty
 
 export XDG_CONFIG_HOME=$HOME/.config
 export XDG_CACHE_HOME=$HOME/.cache
@@ -30,6 +31,7 @@ export CARGO_HOME=$XDG_DATA_HOME/cargo
 export PATH="$PATH:$CARGO_HOME/bin"
 # Go config
 export GOPATH=$XDG_DATA_HOME/go
+export PATH="$PATH:$GOPATH/bin"
 
 # Elixir config
 export MIX_HOME=$XDG_DATA_HOME/mix
